@@ -16,13 +16,11 @@ Imagine you are hired by retail giant Shoprite to design them some software for 
 2. Day to day instructions (e.g. when a stock take is to be done, or reorders have to be approved)
 3. List of all current stock
 4. Stock taking
-5. Employee payroll (hours worked, salaries and leave days)
-    
+5. Employee payroll (hours worked, salaries and leave days)  
 - **Supply chain management**
 1. Reordering of goods from suppliers (manual approval)
 2. Details of all suppliers: Goods offered, prices and contact information
-3. View of open orders and history of orders
-    
+3. View of open orders and history of orders    
 - **Teller points of sale**
 1. Different privilege sets
 2. Sales interface
@@ -30,9 +28,7 @@ Imagine you are hired by retail giant Shoprite to design them some software for 
 4. Customer relation system
 5. Customer complaints
 6. Customer loyalty membership (e.g. Shoprite card)
-7. Customer notification about loyalty specials
-    
-    
+7. Customer notification about loyalty specials   
 - **Knowledge management system**
 1. Share information
 2. …need more here…
