@@ -31,11 +31,18 @@ Imagine you are hired by retail giant Shoprite to design them some software for 
 6. Subtract items purchased from inventory
 7. Restart or go to **3. Main Menu**
 
-**5. Stock**
-1. If select stocklist then select all from stockRecords
-2. If select edit then edit else if select stocktake then stocktake
+**5. Stock_List**
+1. Select all from stockRecords
+2. Create new items
+3. Edit existing items
+4. Delete existing items
 
-**6. Human Resources**
+**6. Stock_Take**
+1. Print stock list
+2. Enter amount counted
+3. Outpout mismatches
+
+**7. Human_Resources**
 1. If select employee list then employee-list else if select payroll-list
 2. Employee-list: Add new employee to userRecords and employeeRecords Database, Edit existing (edit userRecords and  or employeeRecords) or delete record userRecords and employeeRecords
 3. Payroll-list: select all from payrollRecords where payrollRecords.month = getCurrentMonth
