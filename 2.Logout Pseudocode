@@ -1,0 +1,10 @@
+FUNCTION Logout
+START
+WHILE loggedIn = TRUE
+INSERT INTO logRecords.(EmployeeID, Date, Time, Type) VALUES (userID, getCurrentDate,
+getCurrentTime, “OUT”)
+loggedIn = FALSE
+permission = 0
+END WHILE
+END
+END FUNCTION
