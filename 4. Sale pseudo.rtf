@@ -1,0 +1,55 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf400
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww24140\viewh13020\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 FUNCTION Sale\
+Start\
+BOLEAN exit = false\
+WHILE exit = false\
+	TEXT currentSaleList = \'93\'94, customerID =\'93\'94\
+	BOLEAN pay = false,  paid = false\
+	NUMBER amountDue = 0, amountReceived = 0, amountChange = 0\
+		WHILE pay = false \
+			IF select pay then pay = true \
+			PROMPT: "Please scan an item" and input from scanner: itemID\
+			currentSaleList = currentSaleList(currentSaleList() + itemID)\
+		END WHILE\
+	amountDue = sum (select stockRecords.price from stockRecords where stockRecords.itemID = currentSaleList)\
+	IF sum (select all from customerRecords where customerRecords.customerID = customerID)  = 1 #checking whether customerID is in customerRecords.customerID to determine if it is a loyalty card holder)\
+		THEN amountDue = amountDue * 95% #Loyalty cardholders get 5% off every purchase)\
+	END IF\
+	WHILE paid = false\
+		PROMPT: "Enter amount received"\
+		INPUT = amountReceived\
+		Open register\
+		IF amountReceived > amountDue\
+			THEN amountChange = amountReceived - amountDue\
+			PROMPT: "The change is: " + amountReceived + \'94N$\'94\
+			paid = true\
+		ELSE IF amountReceived = amountDue\
+			then amountChange = 0\
+			PROMPT: "The change is: " + amountChange + \'93N$\'94\
+			paid = true\
+		ELSE IF amountReceived < amountDue\
+			THEN amountChange = -(amountReceived - amountDue)\
+			PROMPT: \'93Error there is still \'93 + amountChange + \'93N$ due\'94\
+			amountDue = -(amountReceived - amountDue)\
+		END IF\
+	END WHILE\
+	NUMBER itemCount = sum (currentSaleList), count = 0\
+	WHILE count  <= itemCount\
+		count = count + 1 \
+		update stockRecords set stockRecords.amountInStock = stockRecords.amountInStock -1 where stockRecords.itemID = currentSaleList(count)\
+	END WHILE\
+	Print currentSaleList + amountDue\
+	IF till not closed \
+	THEN prompt: "Please close the till"\
+	IF select exit\
+	THEN exit = true\
+END WHILE\
+START FUNCTION Main Menu\
+END\
+END FUNCTION}

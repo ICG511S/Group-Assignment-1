@@ -1,0 +1,54 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1671\cocoasubrtf400
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww24140\viewh13020\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 FUNCTION Login\
+START\
+GLOBAL NUMBER userID, passcode, permission\
+BOLEAN loggedIn = FALSE\
+WHILE loggedIn = FALSE\
+	Prompt: \'93Please enter your User ID and Passcode\'94\
+	Input: userID, passcode\
+	If userRecords.userID = userID and userRecords.passcode = passcode\
+	then loggedIn = True\
+	ELSE PROMPT: \'93Wrong user ID and Passcode, try again\'94\
+END WHILE\
+permission = select userRecords.permission from userRecords where userRecords.userID = userID\
+INSERT INTO  logRecords.(EmployeeID, Date, Time, Type) VALUES (userID, getCurrentDate, getCurrentTime, \'93IN\'94)\
+IF permission >= 3\
+THEN \
+IF count(select all from stockRecords where stockRecords.amountInStock < stockRecords.threshold) > 0\
+	PROMPT: \'93One or more items is running low in stock!\'94\
+END IF\
+IF getCurrentDate(month) = 25\
+THEN\
+	PROMPT: \'93Stocktake is due in three days\'94\
+ELSE IF getCurrentDate(month) = 26\
+THEN\
+	PROMPT: \'93Stocktake is due in two days\'94\
+ELSE IF getCurrentDate(month) = 27\
+THEN\
+	PROMPT: \'93Stocktake is due in one day\'94\
+ELSE IF getCurrentDate(month) = 28\
+THEN\
+	PROMPT: \'93Stocktake is due today\'94\
+END IF\
+IF getCurrentDate(month) = 21\
+THEN\
+	PROMPT: \'93Payday is in three days\'94\
+ELSE IF getCurrentDate(month) = 26\
+THEN\
+	PROMPT: \'93Payday is in two days\'94\
+ELSE IF getCurrentDate(month) = 27\
+THEN\
+	PROMPT: \'93Payday is in one day\'94\
+ELSE IF getCurrentDate(month) = 28\
+THEN\
+	PROMPT: \'93Payday is today\'94\
+END IF\
+START FUNCTION Main_Menu\
+END\
+END FUNCTION}
