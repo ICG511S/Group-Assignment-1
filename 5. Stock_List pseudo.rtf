@@ -1,48 +1,31 @@
-FUNCTION Sale
-Start
-BOLEAN exit = false
-WHILE exit = false
-	TEXT currentSaleList = “”, customerID =“”
-	BOLEAN pay = false,  paid = false
-	NUMBER amountDue = 0, amountReceived = 0, amountChange = 0
-		WHILE pay = false 
-			IF select pay then pay = true 
-			PROMPT: "Please scan an item" and input from scanner: itemID
-			currentSaleList = currentSaleList(currentSaleList() + itemID)
-		END WHILE
-	amountDue = sum (select stockRecords.price from stockRecords where stockRecords.itemID = currentSaleList)
-	IF sum (select all from customerRecords where customerRecords.customerID = customerID)  = 1 #checking whether customerID is in customerRecords.customerID to determine if it is a loyalty card holder)
-		THEN amountDue = amountDue * 95% #Loyalty cardholders get 5% off every purchase)
+FUNCTION Stock_List
+START
+show button(Add new item), button(Edit item), button(Delete item), button(Exit)
+select all from stockRecords
+BOOLEAN exit = FALSE
+WHILE exit = FALSE
+NUMBER itemID = 0, price = 0, amountInStock = 0, threshold = 0
+TEXT name = “”
+	IF button(Add new item) is selected
+	THEN PROMPT: “Please enter: Item ID, Name, Price, Amount in stock and the threshold”
+		INPUT: itemID, name, Price, amountInStock, threshold
+		INSERT INTO stockRecords.(itemID, name, price, amountInStock, threshold) VALUES itemID, name, price, amountInStock, threshold
+		PROMPT: “The record has been created successfully”
+	ELSE IF button(Edit item) is selected
+	THEN PROMPT: “Please enter: Item ID which you would like to edit”
+		INPUT: itemID
+		PROMPT: “Enter new Name, Price, Amount in stock and threshold”
+		INPUT: name, price, amountInStock, threshold
+		UPDATE stockRecords SET stockRecords.name = name, stockRecords.price = price, stockRecords.amountInStock = amountInStock, stockRecords.threshold = threshold WHERE stockRecords.itemID = itemID
+		PROMPT: “The record has been successfully changed”
+	ELSE IF button(Delete item) is selected
+	THEN PROMPT: “Please enter: Item ID which you would like to delete”
+		INPUT: itemID
+		DELETE FROM stockRecords WHERE  stockRecords.itemID = itemID
+		PROMPT: “The record has been successfully deleted”
+	ELSE IF button(Exit) is selected
+	THEN exit = TRUE
 	END IF
-	WHILE paid = false
-		PROMPT: "Enter amount received"
-		INPUT = amountReceived
-		Open register
-		IF amountReceived > amountDue
-			THEN amountChange = amountReceived - amountDue
-			PROMPT: "The change is: " + amountReceived + ”N$”
-			paid = true
-		ELSE IF amountReceived = amountDue
-			then amountChange = 0
-			PROMPT: "The change is: " + amountChange + “N$”
-			paid = true
-		ELSE IF amountReceived < amountDue
-			THEN amountChange = -(amountReceived - amountDue)
-			PROMPT: “Error there is still “ + amountChange + “N$ due”
-			amountDue = -(amountReceived - amountDue)
-		END IF
-	END WHILE
-	NUMBER itemCount = sum (currentSaleList), count = 0
-	WHILE count  <= itemCount
-		count = count + 1 
-		update stockRecords set stockRecords.amountInStock = stockRecords.amountInStock -1 where stockRecords.itemID = currentSaleList(count)
-	END WHILE
-	Print currentSaleList + amountDue
-	IF till not closed 
-	THEN prompt: "Please close the till"
-	IF select exit
-	THEN exit = true
 END WHILE
-START FUNCTION Main Menu
 END
 END FUNCTION
